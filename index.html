@@ -1,0 +1,99 @@
+<html>
+<head>
+	<title>OBJECT LOCATOR!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.js"></script>
+
+  <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
+</head>
+
+<body background="back.jpg">
+    <h1 id="Head">OBJECT LOCATOR!</h1>
+    <div>
+        <input type="text" id="object" placeholder="ENTER OBJECT NAME!" style="color: white;">
+        <button onclick="start();" id="start">START!</button>
+    </div>
+    <div>
+        <h3 id="status" style="margin-right: 300px; margin-left: 300px;"></h3>
+        <h3 id="detectionStatus" style="margin-right: 300px; margin-left: 300px;"></h3>
+    </div>
+</body>
+</html>
+
+<style>
+    body {
+        background-size: cover;
+        font-size: 20px;
+        color: white;
+        text-align: center;
+        text-shadow: 2px 2px 5px white;
+        border: 10px solid white;
+        border-radius: 10px;
+    }
+
+    #Head {
+        font-size: 50px;
+        font-weight: bold;
+    }
+
+    #object, #start, #status, #detectionStatus {
+        background-color: transparent;
+        border: 2px solid white;
+        box-shadow: 2px 2px 5px white;
+        color: white;
+        font-weight: 100;
+        border-radius: 10px;
+        padding: 5px;
+        margin: 10px;
+        margin-left: 20px;
+        margin-right: 20px;
+        text-align: center;
+    }
+
+    canvas {
+        margin-top: 500px;
+        background-color: transparent;
+        border: 2px solid white;
+        box-shadow: 2px 2px 5px white;
+        color: white;
+        font-weight: 100;
+        border-radius: 10px;
+        padding: 5px;
+        margin: 10px;  
+    }
+</style>
+
+<script>
+    vid = "";
+    status = "";
+
+    function preload() {
+        vid = createVideo("vid.mp4");
+        vid.hide();
+    }
+
+    function setup() {
+        canvas = createCanvas(150, 300);
+    }
+
+    function draw() {
+        image(vid, 0, 0, 150, 300);
+    }
+
+    function start() {
+        document.getElementById("status").innerHTML = "DETECTING OBJECTS...";
+        detector = ml5.objectDetector("cocossd", loaded);
+    }
+
+    function loaded() {
+        console.log("model loaded");
+        status = true;
+        vid.play();
+        vid.speed(0.5);
+        vid.volume(0);
+    }
+</script>
